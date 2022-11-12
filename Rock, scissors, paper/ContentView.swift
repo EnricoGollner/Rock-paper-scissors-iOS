@@ -7,9 +7,21 @@
 
 import SwiftUI
 
+struct Figures: View{
+    var figure: String
+    
+    var body: some View{
+        Text(figure)
+            .font(.system(size: 30))
+            .padding()
+            .background(.green)
+            .clipShape(Capsule())
+    }
+}
+
 struct ContentView: View {
 
-    @State private var moves = ["Rock", "Paper", "Scissor"].shuffled()  // Embaralha
+    @State private var moves = ["✊", "🤚", "✌️"].shuffled()  // Embaralha
     
     @State private var status = ["WIN", "LOOSE"].shuffled()  // Embaralha
     
@@ -27,35 +39,46 @@ struct ContentView: View {
     
     var body: some View {
         ZStack{
-            Color.blue
+            LinearGradient(gradient: Gradient(stops: [
+                .init(color: .green, location: 0.1),
+                .init(color: .blue, location: 0.4)
+            ]), startPoint: .top, endPoint: .bottom)
             
             VStack(spacing: 40){
+                Spacer()
                 
                 Text("Level \(quest)")
                     .font(.largeTitle)
                     .foregroundColor(.white)
+                
+                Spacer()
                 
                 Text("\(moves[adversary])")
                     .font(.largeTitle)
                     .foregroundColor(.white)
                     .padding()
                     .background(.red)
+                    .cornerRadius(30)
+                
+                Spacer()
                 
                 Text("How to \(status[alternate]) this game")
                     .foregroundColor(.white)
+                    .font(.system(size: 22))
                 
+                Spacer()
                 HStack(alignment: .center){
                     ForEach(0..<3){ number in
-                        Button("\(moves[number])"){
+                        Button {
                             verify(number)
+                        } label: {
+                            Figures(figure: moves[number])
                         }
-                        .foregroundColor(.white)
-                        .buttonStyle(.borderedProminent)
-                        .tint(.green)
                     }
                 }
                 
-                Text("\(score)")
+                Spacer()
+                Text("Score: \(score)")
                     .font(.largeTitle)
                     .foregroundColor(.white)
             }
@@ -77,12 +100,12 @@ struct ContentView: View {
     
         if status[alternate] == "WIN"{
             switch moves[adversary]{
-            case "Rock":
+            case "✊":
                 switch moves[numberOption]{
-                case "Paper":
+                case "🤚":
                     score += 1
                     scoreTitle = "Correct!"
-                case "Scissor":
+                case "✌️":
                     if score > 0{
                         scoreMinusVerify(score)
                     }
@@ -90,23 +113,23 @@ struct ContentView: View {
                 default:
                     scoreTitle = "Tie!"
                 }
-            case "Paper":
+            case "🤚":
                 switch moves[numberOption]{
-                case "Rock":
+                case "✊":
                     scoreMinusVerify(score)
                     scoreTitle = "Fail!"
-                case "Scissor":
+                case "✌️":
                     score += 1
                     scoreTitle = "Correct!"
                 default:
                     scoreTitle = "Tie!"
                 }
-            case "Scissor":
+            case "✌️":
                 switch moves[numberOption]{
-                case "Rock":
+                case "✊":
                     score += 1
                     scoreTitle = "Correct!"
-                case "Paper":
+                case "🤚":
                     scoreMinusVerify(score)
                     scoreTitle = "Fail!"
                 default:
@@ -119,34 +142,34 @@ struct ContentView: View {
         } else{  // If it's "Loose"
             
             switch moves[adversary]{
-            case "Rock":
+            case "✊":
                 switch moves[numberOption]{
-                case "Paper":
+                case "🤚":
                     score += 1
                     scoreTitle = "Correct!"
-                case "Scissor":
+                case "✌️":
                     scoreMinusVerify(score)
                     scoreTitle = "Fail!"
                 default:
                     scoreTitle = "Tie!"
                 }
-            case "Paper":
+            case "🤚":
                 switch moves[numberOption]{
-                case "Rock":
+                case "✊":
                     score += 1
                     scoreTitle = "Correct!"
-                case "Scissor":
+                case "✌️":
                     scoreTitle = "Fail!"
                     scoreMinusVerify(score)
                 default:
                     scoreTitle = "Tie!"
                 }
-            case "Scissor":
+            case "✌️":
                 switch moves[numberOption]{
-                case "Rock":
+                case "✊":
                     scoreTitle = "Fail!"
                     scoreMinusVerify(score)
-                case "Paper":
+                case "🤚":
                     scoreTitle = "Correct!"
                     score += 1
                 default:
