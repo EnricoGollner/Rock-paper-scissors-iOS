@@ -16,7 +16,28 @@ struct Figures: View{
     }
 }
 
-struct ContentView: View{
+struct Quest: View{
+    var status: [String]
+    var statusOp: Int
+    
+    init(_ status: [String], _ statusOp: Int){
+        self.status = status
+        self.statusOp = statusOp
+    }
+    
+    var body: some View{
+        HStack{
+            Text("How to")
+            Text(status[statusOp])
+                .foregroundColor(status[statusOp] == "WIN" ? .green : .red)
+            Text("this game?")
+        }
+        .font(.system(size: 30))
+        .foregroundColor(.white)
+    }
+}
+
+struct Playing: View{
     @State private var status = ["WIN", "LOOSE"].shuffled()
     @State private var moves = ["✊", "🤚", "✌️"]
     @State private var statusOp = Int.random(in: 0..<2)
@@ -35,7 +56,7 @@ struct ContentView: View{
     var body: some View{
         ZStack{
             LinearGradient(gradient: Gradient(stops: [
-                .init(color: .green, location: 0.2),
+                .init(color: .blue, location: 0.2),
                 .init(color: .black, location: 0.8)
             ]), startPoint: .top, endPoint: .bottom)
             .ignoresSafeArea()
@@ -49,12 +70,12 @@ struct ContentView: View{
                 Text(moves[adversary])
                     .font(.largeTitle)
                     .padding()
-                    .background(.red)
+                    .background(status[statusOp] == "WIN" ? .green : .red)
                     .cornerRadius(20)
                 Spacer()
-                Text("How to \(status[statusOp]) this game")
-                    .font(.system(size: 30))
-                    .foregroundColor(.white)
+                
+                Quest(status, statusOp)
+                
                 Spacer()
                 HStack{
                     ForEach(0..<3){ moveNumb in
@@ -177,6 +198,12 @@ struct ContentView: View{
         score = 0
         quest = 1
         status.shuffle()
+    }
+}
+
+struct ContentView: View{
+    var body: some View{
+        Playing()
     }
 }
 struct ContentView_Previews: PreviewProvider {
