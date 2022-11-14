@@ -16,6 +16,21 @@ struct Figures: View{
     }
 }
 
+struct SetStatusColor: ViewModifier{
+    var status: [String]
+    var statusOp: Int
+    
+    init(_ status: [String], _ statusOp: Int){
+        self.status = status
+        self.statusOp = statusOp
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(status[statusOp] == "WIN" ? .green : .red)
+    }
+}
+
 struct Quest: View{
     var status: [String]
     var statusOp: Int
@@ -29,7 +44,7 @@ struct Quest: View{
         HStack{
             Text("How to")
             Text(status[statusOp])
-                .foregroundColor(status[statusOp] == "WIN" ? .green : .red)
+                .modifier(SetStatusColor(status, statusOp))
             Text("this game?")
         }
         .font(.system(size: 30))
