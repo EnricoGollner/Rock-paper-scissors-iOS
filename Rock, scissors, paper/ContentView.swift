@@ -33,17 +33,6 @@ struct ContentView: View{
 
     
     var body: some View{
-        let agreedToAll = Binding(
-            get: {
-                agreedToTerms && agreedToPrivacyPolicy && agreedToEmails
-            },
-            set:{
-                agreedToTerms = $0
-                agreedToPrivacyPolicy = $0
-                agreedToEmails = $0
-            }
-        )
-        
         ZStack{
             LinearGradient(gradient: Gradient(stops: [
                 .init(color: .green, location: 0.2),
