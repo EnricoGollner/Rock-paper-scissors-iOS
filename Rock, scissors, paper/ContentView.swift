@@ -18,7 +18,7 @@ struct Figures: View{
 
 struct ContentView: View{
     @State private var status = ["WIN", "LOOSE"].shuffled()
-    @State private var moves = ["✊", "🤚", "✌️"].shuffled()
+    @State private var moves = ["✊", "🤚", "✌️"]
     @State private var statusOp = Int.random(in: 0..<2)
     @State private var adversary = Int.random(in: 0..<3)
     @State private var score = 0
@@ -26,13 +26,31 @@ struct ContentView: View{
     @State private var scoreTitle = ""
     @State private var showScore = false
     @State private var isOver = false
+    
+    @State private var agreedToTerms = false
+    @State private var agreedToPrivacyPolicy = false
+    @State private var agreedToEmails = false
+
+    
     var body: some View{
+        let agreedToAll = Binding(
+            get: {
+                agreedToTerms && agreedToPrivacyPolicy && agreedToEmails
+            },
+            set:{
+                agreedToTerms = $0
+                agreedToPrivacyPolicy = $0
+                agreedToEmails = $0
+            }
+        )
+        
         ZStack{
             LinearGradient(gradient: Gradient(stops: [
                 .init(color: .green, location: 0.2),
-                .init(color: .blue, location: 0.8)
+                .init(color: .black, location: 0.8)
             ]), startPoint: .top, endPoint: .bottom)
             .ignoresSafeArea()
+            
             VStack{
                 Spacer()
                 Text("Level \(quest)")
@@ -52,7 +70,7 @@ struct ContentView: View{
                 HStack{
                     ForEach(0..<3){ moveNumb in
                         Button{
-                            verify(moveNumb)  // Send the op. we choose
+                            verify(moveNumb)  // Send the option we choose
                         } label: {
                             Figures(figure: moves[moveNumb])
                         }
@@ -165,13 +183,11 @@ struct ContentView: View{
     func askQuest(){
         quest += 1
         status.shuffle()
-        moves.shuffle()
     }
     func restart(){
         score = 0
         quest = 1
         status.shuffle()
-        moves.shuffle()
     }
 }
 struct ContentView_Previews: PreviewProvider {
