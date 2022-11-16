@@ -200,7 +200,7 @@ struct Playing: View{
             showScore.toggle()
         }
     }
-    func adjustScore(_ score: Int){
+    func adjustScore(_ score: Int){  // Avoid negative numbers
         if score > 0{
             self.score -= 1
         }
