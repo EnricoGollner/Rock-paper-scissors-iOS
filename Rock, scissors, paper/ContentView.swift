@@ -62,12 +62,7 @@ struct Playing: View{
     @State private var scoreTitle = ""
     @State private var showScore = false
     @State private var isOver = false
-    
-    @State private var agreedToTerms = false
-    @State private var agreedToPrivacyPolicy = false
-    @State private var agreedToEmails = false
 
-    
     var body: some View{
         ZStack{
             LinearGradient(gradient: Gradient(stops: [
