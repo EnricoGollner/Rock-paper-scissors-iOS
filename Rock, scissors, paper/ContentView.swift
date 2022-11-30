@@ -203,6 +203,7 @@ struct Playing: View{
     func askQuest(){
         quest += 1
         status.shuffle()
+        moves.shuffle()
     }
     func restart(){
         score = 0
